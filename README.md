@@ -27,7 +27,7 @@ Participants sign up and receive credit for studies in SONA. This section outlin
 
 While setting up your study in SONA, you will be asked, "Should survey participants be identified only by a random, unique ID code?" If you select "yes", every participant who signs up for your study in SONA will be assigned a numerical ID. This ID, called a `SURVEY_ID`, can be viewed next to the participant's name on the "View uncredited timeslots tab".
 
-SONA must then be configured to pass this `SURVEY_ID` to Qualtrics. This is done by including it in the query string of the "Study URL" link. A link to Qualtrics (without a query string) will probably look something like this: `https://cuhealth.eu.qualtrics.com/jfe/form/SV_14iwKWbMv6n2BQe`.
+SONA must then be configured to pass this `SURVEY_ID` to Qualtrics. This is done by including it in the query string of the "Study URL" link. A link to a  Qualtrics survey (without a query string) will probably look something like this: `https://cuhealth.eu.qualtrics.com/jfe/form/SV_14iwKWbMv6n2BQe`.
 
 We append a query string parameter with a name of `id` and a value of `%SURVEY_ID%`, resulting in the following (don't forget the `?` to signify the start of the query string): `https://cuhealth.eu.qualtrics.com/jfe/form/SV_14iwKWbMv6n2BQe?id=%SURVEY_ID%`.
 
@@ -35,11 +35,30 @@ If you are using multiple SONA systems (i.e., the CogSci and Psych platforms), o
 
 With this configuration, SONA will include a unique ID code for each participant who clicks the study link and accesses Qualtrics. You will be able to follow this participant in Qualtrics and Pavlovia without these datasets containing any personally identifiable information. This ID code can then be used for automated or manual credit granting (see below).
 
-## Qualtrics
+## Qualtrics setup
 
-### maintain anonymity
+You can use Qualtrics to (1) display consent information and record participants' consent; (2) capture any other participant information relevant to your study; (3) redirect qualifying, consenting participants to Pavlovia, where your study's experiment will take place.
 
-Participants sign consent forms and fill out questionnaires in Qualtrics. If they consent and qualify to participate, they can be redirected to Pavlovia for the experiment.
+Qualtrics is positioned between SONA and Pavlovia in our experiment stack, so correctly configuring Qualtrics is essential to connecting your experiment data (in Pavlovia) back to your participants. This section of the guide focuses on saving the SONA-generated ID in a Qualtrics survey, then passing this ID to Pavlovia.
+
+### Saving the SONA-generated `id` (and any other query string data)
+
+Above, we configured SONA to pass a participant's `SURVEY_ID` in a query string parameter called `id`. Our Qualtrics survey must extract this value from the query string and save it in the survey data. This is done in the "Survey Flow" section of your Survey configuration.
+
+At the top of the survey flow, add a new element called "Set embedded data". Inside this element, add a new field for each query string parameter being passed to Qualtrics (using the example above, add one called `id` and one called `source`). Use the default behavior of "Value will be set from Panel or URL".
+
+If the participant completes the survey, the `id` and `source` will be included in the survey data along with the participants' survey responses.
+
+### Survey validation
+
+Qualtrics surveys are highly customizable, and their documentation is the best resource to learn how to design the survey that is right for your study. 
+Here are some basic guidelines to follow when designing your survey:
+- to do
+- to do
+
+### Redirect to Pavlovia
+
+If they consent and qualify to participate, they can be redirected to Pavlovia for the experiment.
 
 - take survey_id from query string
 - save survey_id from into form data
