@@ -8,7 +8,7 @@ This guide is intended for Cognitive Science and Psychology students at Carleton
 This guide describes several distinct features:
 * Keeping participants anonymous outside of SONA (i.e., in Qualtrics and Pavlovia).
 * Form validation in Qualtrics
-* Linking platforms together
+* Linking platforms together (SONA -> Qualtrics -> Pavlovia)
 * Automatic credit granting
 
 When implemented together, these features minimize manual work (and even eliminate the need for some manual operations) and facilitate data analysis and management. In short, they save you time and energy.
@@ -49,24 +49,25 @@ At the top of the survey flow, add a new element called "Set embedded data". Ins
 
 If the participant completes the survey, the `id` and `source` will be included in the survey data along with the participants' survey responses.
 
-### Survey validation
+### Survey design
 
-Qualtrics surveys are highly customizable, and their documentation is the best resource to learn how to design the survey that is right for your study. 
-Here are some basic guidelines to follow when designing your survey:
-- to do
-- to do
+Qualtrics surveys are highly customizable, and their [documentation](https://www.qualtrics.com/support/survey-platform/survey-module/survey-module-overview/) is a great way to familiarize yourself with the options available.
+
+The length and complexity of your survey will depend on the needs of your study. Here are some general guidelines for survey design: 
+
+**Use appropriate field types**: ==(fill this out)==
+
+**Validate your inputs**: ==(fill this out)==
+
+**Make required field required**: ==(fill this out)==
+
+**Use conditional show/hide logic: ==(fill this out)==
 
 ### Redirect to Pavlovia
 
-If they consent and qualify to participate, they can be redirected to Pavlovia for the experiment.
+If participants consent and qualify for your study, they can be redirected to Pavlovia upon completion of the Qualtrics survey.
 
-- take survey_id from query string
 - save survey_id from into form data
-
-### form validation
-
-### redirect to Pavlovia
-
 - redirect to Pavlovia
 - use survey_id that was passed from SONA to Qualtrics as participant ID for Pavlovia (query string parameter of "participant")
 
