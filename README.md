@@ -3,7 +3,7 @@ A guide for setting up online experiments with SONA, Qualtrics, and Pavlovia.
 
 This guide is intended for Cognitive Science and Psychology students at Carleton University. It provides tips on setting up online experiments using three platforms: SONA, Qualtrics, and Pavlovia. While each of these platforms has detailed documentation, this documentation often describes highly valuable, time-saving features in technical language that might cause non-technical researchers to overlook them. These oversights could cost researchers both time and money. This guide aims to highlight these features, explain them in non-technical language, and provide clear instructions for using them.
 
-# What features does this guide describe, and why should I care about them?
+# What features does this guide cover? Why should I care?
 
 This guide describes several distinct features:
 * Keeping participants anonymous outside of SONA (i.e., in Qualtrics and Pavlovia).
