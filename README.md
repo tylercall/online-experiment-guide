@@ -55,23 +55,34 @@ Qualtrics surveys are highly customizable, and their [documentation](https://www
 
 The length and complexity of your survey will depend on the needs of your study. Here are some general guidelines for survey design: 
 
-**Use appropriate field types**: ==(fill this out)==
+**Use appropriate field types**: (coming soon)
 
-**Validate your inputs**: ==(fill this out)==
+**Validate your inputs**: (coming soon)
 
-**Make required field required**: ==(fill this out)==
+**Make required field required**: (coming soon)=
 
-**Use conditional show/hide logic: ==(fill this out)==
+**Use conditional show/hide logic**: (coming soon)
+
+**Prevent participants from completing survey more than once**: (coming soon)
 
 ### Redirect to Pavlovia
 
-If participants consent and qualify for your study, they can be redirected to Pavlovia upon completion of the Qualtrics survey.
+If participants consent and qualify for your study, they can be redirected from Qualtrics to Pavlovia upon completion of the Qualtrics survey.
 
-- save survey_id from into form data
-- redirect to Pavlovia
-- use survey_id that was passed from SONA to Qualtrics as participant ID for Pavlovia (query string parameter of "participant")
+You can configure this redirect by configuring the "End of Survey" section (below your survey blocks) of the survey builder. In this section, set the “End of survey message” to “Rediret to URL” and enter full complete redirect (described below) in the “Website URL” field.
+
+The full redirect link contains the base URL (which will navigate participants to Pavlovia) and a query string that uniquely identifies each participant in Pavlovia. The base URL can be found in Pavlovia in the “Recruitment” section of your experiment page. For example: `https://run.pavlovia.org/joe.researcher/my-first-study`. If a user accesses this base URL without any query string information, they will be prompted to enter their participant ID and session number. Using the query string, we can pass these values to Pavlovia and prevent participants from being prompted for this information.
+
+To uniquely (and anonymously) identify your participant in Pavlovia, add a query string containing participant information to the base Pavlovia URL.
+You should append a query string to the end of the base URL. This query string must contain a paramater named `participant`. You can dynamically insert the current participant's `id`, which originated in SONA and was saved into the Qualtrics survey as `id`, with the following syntax: `${e://Field/id}`. Here is an example full redirect URL that includes this dynamically inserted participant ID: `https://run.pavlovia.org/joe.researcher/my-first-study?participant=${e://Field/id}`.
+
+If you have enforced that your participants can only complete the Qualtrics survey once (and therefore can only be redirected to Pavlovia once), you may also choose to pass a query string parameter of `session` to Pavlovia: `https://run.pavlovia.org/joe.researcher/my-first-study?participant=${e://Field/id}&session=001` 
 
 
+This example assumes you only permit participants to complete the Qualtrics survey once and access Pavlovia from Qualtrics once
+Value of “participant” should be the id passed to Qualtrics from SONA and saved into your Qualtrics survey.
+You can dynamically insert the participants’ ID into the redirect URL with the following syntax: ${e://Field/id}, where “id” is the Qualtrics field name where the SONA id was stored in the survey (see above)
+Here is an example redirect link with query string filled out: https://run.pavlovia.org/joe.researcher/my-first-study?participant=${e://Field/id}&session=001
 
 ## Pavlovia
 
