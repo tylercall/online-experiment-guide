@@ -1,27 +1,27 @@
 # online-experiment-guide
-A guide for setting up online experiments with SONA, Qualtrics, and Pavlovia.
+### A guide for setting up online experiments with SONA, Qualtrics, and Pavlovia.
 
-This guide is intended for Cognitive Science and Psychology students at Carleton University. It provides tips on setting up online experiments using three platforms: SONA, Qualtrics, and Pavlovia. While each of these platforms has detailed documentation, this documentation often describes highly valuable, time-saving features in technical language that might cause non-technical researchers to overlook them. These oversights could cost researchers both time and money. This guide aims to highlight these features, explain them in non-technical language, and provide clear instructions for using them.
+# §1. Overview
 
-# What features does this guide cover? Why should I care?
+This guide is intended for Cognitive Science and Psychology students at Carleton University. 
+It provides tips on setting up online experiments using three platforms: SONA, Qualtrics, and Pavlovia.
 
-This guide describes several distinct features:
-* Keeping participants anonymous outside of SONA (i.e., in Qualtrics and Pavlovia).
-* Form validation in Qualtrics
-* Linking platforms together (SONA -> Qualtrics -> Pavlovia)
-* Automatic credit granting
+Following this guide in your own research enables you to:
+* comply with best practices regarding participant data privacy
+* avoid unnecessary (tedious, costly) manual work: data cleaning, anonymizing datasets, reconciling datasets, following up with participants, etc.
+* increase survey data quality and participant completion rates
+* save time, money, and energy
 
-When implemented together, these features minimize manual work (and even eliminate the need for some manual operations) and facilitate data analysis and management. In short, they save you time and energy.
+The following three sections cover three separate aspects of study setup and execution:
+* keeping data anonymized
+* ensuring high quality survey data
+* granting credit
 
-# Core concepts
+# §2. Keep data anonymyized
 
-A few (for now, only one?) core concepts appear throughout this guide. I introduce them here before referencing them below.
+Keeping data anonymized requires properly configuring SONA, Qualtrics, and Pavlovia. SONA will assign each participant an anonymous ID, and Qualtrics and Pavlovia will receive and store this value, ensuring that data across platforms are reconcilable and anonymized. The following sections outline the necessary SONA, Qualtrics, and Pavlovia setup to keep data anonymized.
 
-## Query string
-
-(explain query string)
-
-# SONA Setup
+## §2a. SONA Setup
 
 Participants sign up and receive credit for studies in SONA. This section outlines SONA configuration that allows you to maintain anonymized datasets outside of SONA and facilitates the credit granting process.
 
@@ -35,13 +35,13 @@ If you are using multiple SONA systems (i.e., the CogSci and Psych platforms), o
 
 With this configuration, SONA will include a unique ID code for each participant who clicks the study link and accesses Qualtrics. You will be able to follow this participant in Qualtrics and Pavlovia without these datasets containing any personally identifiable information. This ID code can then be used for automated or manual credit granting (see below).
 
-# Qualtrics setup
+## §2b. Qualtrics setup
 
 You can use Qualtrics to (1) display consent information and record participants' consent; (2) capture any other participant information relevant to your study; (3) redirect qualifying, consenting participants to Pavlovia, where your study's experiment will take place.
 
 Qualtrics is positioned between SONA and Pavlovia in our experiment stack, so correctly configuring Qualtrics is essential to connecting your experiment data (in Pavlovia) back to your participants. This section of the guide focuses on saving the SONA-generated ID in a Qualtrics survey, then passing this ID to Pavlovia.
 
-## Saving the SONA-generated `id` (and any other query string data)
+### Saving the SONA-generated `id` (and any other query string data)
 
 Above, we configured SONA to pass a participant's `SURVEY_ID` in a query string parameter called `id`. Our Qualtrics survey must extract this value from the query string and save it in the survey data. This is done in the "Survey Flow" section of your Survey configuration.
 
@@ -49,23 +49,7 @@ At the top of the survey flow, add a new element called "Set embedded data". Ins
 
 If the participant completes the survey, the `id` and `source` will be included in the survey data along with the participants' survey responses.
 
-## Survey design
-
-Qualtrics surveys are highly customizable, and their [documentation](https://www.qualtrics.com/support/survey-platform/survey-module/survey-module-overview/) is a great way to familiarize yourself with the options available.
-
-The length and complexity of your survey will depend on the needs of your study. Here are some general guidelines for survey design: 
-
-**Use appropriate field types**: (coming soon)
-
-**Validate your inputs**: (coming soon)
-
-**Make required field required**: (coming soon)=
-
-**Use conditional show/hide logic**: (coming soon)
-
-**Prevent participants from completing survey more than once**: (coming soon)
-
-## Redirect to Pavlovia
+### Redirect to Pavlovia
 
 If participants consent and qualify for your study, they can be redirected from Qualtrics to Pavlovia upon completion of the Qualtrics survey.
 
@@ -79,15 +63,28 @@ You should append a query string to the end of the base URL. This query string m
 If you have enforced that your participants can only complete the Qualtrics survey once (and therefore can only be redirected to Pavlovia once), you may also choose to pass a query string parameter of `session` to Pavlovia: `https://run.pavlovia.org/joe.researcher/my-first-study?participant=${e://Field/id}&session=001` 
 
 This example assumes you only allow participants to complete the Qualtrics survey once and access Pavlovia from Qualtrics once
-Value of “participant” should be the id passed to Qualtrics from SONA and saved into your Qualtrics survey.
-You can dynamically insert the participants’ ID into the redirect URL with the following syntax: ${e://Field/id}, where “id” is the Qualtrics field name where the SONA id was stored in the survey (see above)
-Here is an example redirect link with query string filled out: https://run.pavlovia.org/joe.researcher/my-first-study?participant=${e://Field/id}&session=001
+Value of `“participant”` should be the id passed to Qualtrics from SONA and saved into your Qualtrics survey.
+You can dynamically insert the participants’ ID into the redirect URL with the following syntax: `${e://Field/id}`, where “id” is the Qualtrics field name where the SONA id was stored in the survey (see above)
+Here is an example redirect link with query string filled out: `https://run.pavlovia.org/joe.researcher/my-first-study?participant=${e://Field/id}&session=001`
 
-# Pavlovia
+## §2c. Pavlovia
 
 (coming soon)
 
-# Granting credit in SONA
+# §3. Ensure high quality survey data
+
+Qualtrics surveys are highly customizable, and their [documentation](https://www.qualtrics.com/support/survey-platform/survey-module/survey-module-overview/) is a great way to familiarize yourself with the options available.
+
+The length and complexity of your survey will depend on the needs of your study. Here are some general guidelines for survey design, all of which are possible in Qualtrics: 
+
+* Use appropriate field types
+* Validate your inputs
+* Make required fields required
+* Use conditional show/hide logic to ensure that participants only see (and only answer) the questions that apply to them
+* Prevent participants from completing survey more than once
+
+
+# 4. Granting credit in SONA
 
 You can grant credit to SONA participants in two ways. First, you can manually grant credit in the SONA platform. Second, you can automatically grant credit to participants after they complete the study. Note that if you choose to implement automatic credit granting, this will only work for participants who complete the study. If you want to grant credit to participants who partially complete your study, you will need to do this manually.
 
@@ -97,4 +94,11 @@ To manually grant credit in SONA, log into the SONA platform and access your stu
 
 ## Automatic credit granting
 
-(coming soon)
+(coming soon?)
+
+# Coming Soon
+
+Sections on:
+* Pavlovia setup
+* query string
+* automatic credit granting
