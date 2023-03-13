@@ -12,22 +12,34 @@ Following this guide in your own research enables you to:
 * increase survey data quality and participant completion rates
 * save time, money, and energy
 
-The following three sections cover three separate aspects of study setup and execution:
+The next section introduces you to the concept of the query string, upon which smooth integration relies. The following three sections cover three separate aspects of study setup and execution:
 * keeping data anonymized
 * ensuring high quality survey data
 * granting credit
 
-# §2. Keep data anonymyized
+# §2. The query string
 
-Keeping data anonymized requires properly configuring SONA, Qualtrics, and Pavlovia. SONA will assign each participant an anonymous ID, and Qualtrics and Pavlovia will receive and store this value, ensuring that data across platforms are reconcilable and anonymized. The following sections outline the necessary SONA, Qualtrics, and Pavlovia setup to keep data anonymized.
+The query string is an optional section of a URL that is used for conveying information about the user, the source from which the user originated, or other metadata. In this tutorial, we use the query string to ensure that each participant is identified using a consistent anonymous ID across all platforms.
 
-## §2a. SONA Setup
+All query strings must be URL-encoded. This means that most special characters are prohibited and must be replaced by encoded values. For simplicity, I recommend using only lowercase letters, numbers, and underscores `_`in your query string. Query string, like any other part of a URL, cannot contain spaces. 
 
-Participants sign up and receive credit for studies in SONA. This section outlines SONA configuration that allows you to maintain anonymized datasets outside of SONA and facilitates the credit granting process.
+The query string starts with a question mark `?` and is followed by one or more parameters. Each parameter has a name (e.g., `param_1`) and a value (`val_1`). The name and value are separated by an equals sign `=`, e.g., `param_1=val_1`.
 
-While setting up your study in SONA, you will be asked, "Should survey participants be identified only by a random, unique ID code?" If you select "yes", every participant who signs up for your study in SONA will be assigned a numerical ID. This ID, called a `SURVEY_ID`, can be viewed next to the participant's name on the "View uncredited timeslots tab".
+If you have more than one parameter, each parameter must be separated with an ampersand `&`, e.g., `?param_1=val_1&param_2=val_2`.
 
-SONA must then be configured to pass this `SURVEY_ID` to Qualtrics. This is done by including it in the query string of the "Study URL" link. A link to a  Qualtrics survey (without a query string) will probably look something like this: `https://cuhealth.eu.qualtrics.com/jfe/form/SV_14iwKWbMv6n2BQe`.
+A query string can be appended to any URL. For example, we can append the query string above to `https://www.google.com`, resulting in `https://www.google.com?param_1=val_1&param_2=val_2`.
+
+# §3. Keep data anonymyized
+
+Keeping data anonymized requires properly configuring SONA and Qualtrics. SONA will assign each participant an anonymous ID. Qualtrics will receive and store this value and needs to pass it to Pavlovia, which will automatically store it. Following the instructions in this section will ensure that your Qualtrics and Pavlovia data is anonymized and that these data can be reconciled with SONA. The following sections outline the necessary SONA, Qualtrics setup to keep data anonymized while maintaining reconcilability.
+
+## §3a. SONA Setup
+
+Participants sign up and receive credit for studies in SONA. This section outlines SONA configuration that allows you to maintain anonymized datasets outside of SONA. Following these instructions will also facilitate the credit granting process (see §4).
+
+While setting up your study in SONA, you will be asked, "Should survey participants be identified only by a random, unique ID code?" If you select "yes", every participant who signs up for your study in SONA will be assigned a numerical ID. This ID, called a `SURVEY_ID`, can be viewed next to the participant's name on the "View uncredited timeslots tab" as soon as a participants signs up.
+
+SONA must then be configured to pass this `SURVEY_ID` to Qualtrics. This is done by including it in the query string of the "Study URL" link. A link to a Qualtrics survey (without a query string) will probably look something like this: `https://cuhealth.eu.qualtrics.com/jfe/form/SV_14iwKWbMv6n2BQe`.
 
 We append a query string parameter with a name of `id` and a value of `%SURVEY_ID%`, resulting in the following (don't forget the `?` to signify the start of the query string): `https://cuhealth.eu.qualtrics.com/jfe/form/SV_14iwKWbMv6n2BQe?id=%SURVEY_ID%`.
 
@@ -71,7 +83,7 @@ Here is an example redirect link with query string filled out: `https://run.pavl
 
 (coming soon)
 
-# §3. Ensure high quality survey data
+# §4. Ensure high quality survey data
 
 Qualtrics surveys are highly customizable, and their [documentation](https://www.qualtrics.com/support/survey-platform/survey-module/survey-module-overview/) is a great way to familiarize yourself with the options available.
 
@@ -84,7 +96,7 @@ The length and complexity of your survey will depend on the needs of your study.
 * Prevent participants from completing survey more than once
 
 
-# 4. Granting credit in SONA
+# §5. Granting credit in SONA
 
 You can grant credit to SONA participants in two ways. First, you can manually grant credit in the SONA platform. Second, you can automatically grant credit to participants after they complete the study. Note that if you choose to implement automatic credit granting, this will only work for participants who complete the study. If you want to grant credit to participants who partially complete your study, you will need to do this manually.
 
