@@ -1,10 +1,12 @@
 # online-experiment-guide
 ### A guide for setting up online experiments with SONA, Qualtrics, and Pavlovia.
 
+The initial author of this guide welcomes feedback and collaboration. If you want to add or modify something, please fork this repository and open a pull request with your changes.
+
 # §1. Overview
 
 This guide is intended for Cognitive Science and Psychology students at Carleton University. 
-It provides tips on setting up online experiments using three platforms: SONA, Qualtrics, and Pavlovia.
+It provides tips on setting up online experiments using three platforms: SONA, Qualtrics, and Pavlovia. It assumes partipants will interact with these platforms in that order. If you are only using two of these systems, the same principles apply, but the instructions in this tutorial will need to be modified.
 
 Following this guide in your own research enables you to:
 * comply with best practices regarding participant data privacy
@@ -12,14 +14,20 @@ Following this guide in your own research enables you to:
 * increase survey data quality and participant completion rates
 * save time, money, and energy
 
-The next section introduces you to the concept of the query string, upon which smooth integration relies. The following three sections cover three separate aspects of study setup and execution:
-* keeping data anonymized
+The next section introduces you to the concept of the *query string*, upon which smooth integration relies. The remaining sections cover three separate aspects of study setup and execution:
+* keeping data anonymous
 * ensuring high quality survey data
 * granting credit
 
+### The importance of testing
+
+In general, if you automate a process, you must test the process to make sure it's working. Your online experiments are no exception. If you automate a multi-step process linking several systems (like the one outlined below), test every step, then test the end-to-end process. If you make a change later, test again.
+
+If you do not test thoroughly, you may lose participants ("Why isn't this study working? I'll just try another...") or valuable data. Data loss could jeopardize your whole experiment. To avoid this, test before you launch!
+
 # §2. The query string
 
-The query string is an optional section of a URL that is used for conveying information about the user, the source from which the user originated, or other metadata. In this tutorial, we use the query string to ensure that each participant is identified using a consistent anonymous ID across all platforms.
+The *query string* is an optional section of a URL that is used for conveying information about the user, the source from which the user originated, or other metadata. In this tutorial, we use the query string to ensure that each participant is identified using a consistent anonymous ID across all platforms.
 
 All query strings must be URL-encoded. This means that most special characters are prohibited and must be replaced by encoded values. For simplicity, I recommend using only lowercase letters, numbers, and underscores `_`in your query string. Query string, like any other part of a URL, cannot contain spaces. 
 
@@ -29,25 +37,25 @@ If you have more than one parameter, each parameter must be separated with an am
 
 A query string can be appended to any URL. For example, we can append the query string above to `https://www.google.com`, resulting in `https://www.google.com?param_1=val_1&param_2=val_2`.
 
-# §3. Keep data anonymyized
+# §3. Ensuring anonymity across platforms
 
-Keeping data anonymized requires properly configuring SONA and Qualtrics. SONA will assign each participant an anonymous ID. Qualtrics will receive and store this value and needs to pass it to Pavlovia, which will automatically store it. Following the instructions in this section will ensure that your Qualtrics and Pavlovia data is anonymized and that these data can be reconciled with SONA. The following sections outline the necessary SONA, Qualtrics setup to keep data anonymized while maintaining reconcilability.
+Keeping data anonymous requires properly configuring SONA and Qualtrics. SONA will assign each participant an anonymous ID. Qualtrics will receive and store this value and needs to pass it to Pavlovia, which will automatically store it. Following the instructions in this section will ensure that your Qualtrics and Pavlovia data is contains no personally identifiable information (PII, e.g., names, email addresses, or student IDs) and that these data can be reconciled with SONA. The following sections outline the necessary SONA, Qualtrics, and Pavlovia setup to keep data anonymous while maintaining reconcilability.
 
 ## §3a. SONA Setup
 
-Participants sign up and receive credit for studies in SONA. This section outlines SONA configuration that allows you to maintain anonymized datasets outside of SONA. Following these instructions will also facilitate the credit granting process (see §4).
+Participants sign up and receive credit for studies in SONA. This section outlines SONA configuration that allows you to maintain anonymous (i.e., PII-free) datasets outside of SONA. Following these instructions will also facilitate the credit granting process (see §4).
 
-While setting up your study in SONA, you will be asked, "Should survey participants be identified only by a random, unique ID code?" If you select "yes", every participant who signs up for your study in SONA will be assigned a numerical ID. This ID, called a `SURVEY_ID`, can be viewed next to the participant's name on the "View uncredited timeslots tab" as soon as a participants signs up.
+While setting up your study in SONA, you will be asked, "Should survey participants be identified only by a random, unique ID code?" If you select "yes", every participant who signs up for your study in SONA will be assigned a numerical ID. This ID, called a `SURVEY_CODE`, can be viewed next to the participant's name on the "View uncredited timeslots tab" as soon as a participants signs up.
 
-SONA must then be configured to pass this `SURVEY_ID` to Qualtrics. This is done by including it in the query string of the "Study URL" link. A link to a Qualtrics survey (without a query string) will probably look something like this: `https://cuhealth.eu.qualtrics.com/jfe/form/SV_14iwKWbMv6n2BQe`.
+SONA must then be configured to pass this `SURVEY_CODE` to Qualtrics. This is done by including it in the query string of the "Study URL" link. A link to a Qualtrics survey (without a query string) will probably look something like this: `https://cuhealth.eu.qualtrics.com/jfe/form/SV_14iwKWbMv6n2BQe`.
 
-We append a query string parameter with a name of `id` and a value of `%SURVEY_ID%`, resulting in the following (don't forget the `?` to signify the start of the query string): `https://cuhealth.eu.qualtrics.com/jfe/form/SV_14iwKWbMv6n2BQe?id=%SURVEY_ID%`.
+We append a query string parameter with a name of `id` and a value of `%SURVEY_CODE%`, resulting in the following (don't forget the `?` to signify the start of the query string): `https://cuhealth.eu.qualtrics.com/jfe/form/SV_14iwKWbMv6n2BQe?id=%SURVEY_ID%`.
 
 If you are using multiple SONA systems (i.e., the CogSci and Psych platforms), or if you plan to recruit participants from another platform (e.g., Prolific), it might be a good idea to add a second query string parameter (don't forget the `&` separator) to indicate the source from which your parciipant was recruited. For example, `https://cuhealth.eu.qualtrics.com/jfe/form/SV_14iwKWbMv6n2BQe?id=%SURVEY_ID%&source=sona_cogsci`.
 
 With this configuration, SONA will include a unique ID code for each participant who clicks the study link and accesses Qualtrics. You will be able to follow this participant in Qualtrics and Pavlovia without these datasets containing any personally identifiable information. This ID code can then be used for automated or manual credit granting (see below).
 
-## §2b. Qualtrics setup
+## §3b. Qualtrics setup
 
 You can use Qualtrics to (1) display consent information and record participants' consent; (2) capture any other participant information relevant to your study; (3) redirect qualifying, consenting participants to Pavlovia, where your study's experiment will take place.
 
@@ -79,11 +87,11 @@ Value of `“participant”` should be the id passed to Qualtrics from SONA and 
 You can dynamically insert the participants’ ID into the redirect URL with the following syntax: `${e://Field/id}`, where “id” is the Qualtrics field name where the SONA id was stored in the survey (see above)
 Here is an example redirect link with query string filled out: `https://run.pavlovia.org/joe.researcher/my-first-study?participant=${e://Field/id}&session=001`
 
-## §2c. Pavlovia
+## §3c. Pavlovia setup
 
-(coming soon)
+Pavlovia will automatically recognize query string paramters with the names of `participant` and `session`. If you use these parameters as part of a valid query string, Pavlovia will record these values in any data it generates from study partipation.
 
-# §4. Ensure high quality survey data
+# §4. Ensure quality survey data in Qualtrics
 
 Qualtrics surveys are highly customizable, and their [documentation](https://www.qualtrics.com/support/survey-platform/survey-module/survey-module-overview/) is a great way to familiarize yourself with the options available.
 
@@ -112,5 +120,4 @@ To manually grant credit in SONA, log into the SONA platform and access your stu
 
 Sections on:
 * Pavlovia setup
-* query string
 * automatic credit granting
